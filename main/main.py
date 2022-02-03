@@ -8,7 +8,7 @@ from util import *
 
 methods = []; userMessages = []
 client = aminofix.Client()
-client.login(email="schawerm1234@bk.ru", password="Apkhgvek@1542")
+client.login(email="фывыф", password="")
 sub_client = aminofix.SubClient(comId="141660670", profile=client.profile)
 print(f"Я щас на акке {sub_client.profile.nickname}")
 
