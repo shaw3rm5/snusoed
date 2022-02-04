@@ -8,7 +8,7 @@ from util import *
 
 methods = []; userMessages = []
 client = aminofix.Client()
-client.login(email="фывыф", password="")
+client.login(email="aminofix", password="кал")
 sub_client = aminofix.SubClient(comId="141660670", profile=client.profile)
 print(f"Я щас на акке {sub_client.profile.nickname}")
 
@@ -24,6 +24,8 @@ def on_message(data: aminofix.objects.Event):
     id = data.message.messageId
     userId = data.message.author.userId
     time = data.json["chatMessage"]["createdTime"]
+
+    #Castle of the DeКринж спасибо за критику но твою мамашу это не воскресит
 
     userMessages.append(time); userMessages.append(userId)
 
@@ -46,7 +48,7 @@ def on_message(data: aminofix.objects.Event):
         sub_client.ban(userId, "Реклама тг канала")
         sub_client.kick(userId, chatId, False)
 
-    if "http://aminoapps.com/" in content:
+    if "http://aminoapps.com/c/" in content:
         sub_client.send_message(message="реклама чего-то! ты будешь забанен. ты не понял? ЗАБАНЕН", chatId=chatId)
         sub_client.ban(userId, "Реклама чего-то из амино")
         sub_client.kick(userId, chatId, False)
@@ -58,7 +60,7 @@ def on_message(data: aminofix.objects.Event):
         print(count)
         sub_client.send_message(message='щас зафлудим чат', messageType=107, chatId=chatId)
         for i in range(count):
-            # threading.Thread(target=sub_client.send_message, args=(chatId, f"флудю для проверки ацтаньте {i}")).start()
+            threading.Thread(target=sub_client.send_message, args=(chatId, f"флудю для проверки ацтаньте {i}")).start()
             sub_client.send_message(chatId, f"флудю для проверки ацтаньте {i}")
 
 
@@ -74,6 +76,8 @@ def on_message(data: aminofix.objects.Event):
         isWin = False; number = random.randint(0, 10)
         sub_client.send_message(message=randomNumberText, chatId=chatId)
         print(number)
+
+        # ЭТА ХУЙНЯ НЕ РАБОТАЕТ
 
         while isWin == False:
             user_variant = sub_client.get_chat_messages(chatId=chatId, size=1).content[0]
