@@ -43,7 +43,7 @@ def on_message(data: aminofix.objects.Event):
     if data.message.type != 0 and content != None:
         sub_client.kick(userId, chatId, False)
 
-    if "t.me/" in content or "@" in content:
+    if "t.me/" in content:
         sub_client.send_message(message="реклама тг канала! ты будешь забанен. ты не понял? ЗАБАНЕН", chatId=chatId)
         sub_client.ban(userId, "Реклама тг канала")
         sub_client.kick(userId, chatId, False)
