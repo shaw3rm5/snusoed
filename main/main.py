@@ -51,12 +51,25 @@ def on_message(data: aminofix.objects.Event):
         sub_client.ban(userId, "Реклама тг канала")
         sub_client.kick(userId, chatId, False)
 
-    if content.lower().startswith(".бан"):
+    if content.lower().startswith("бан"):
         if sub_client.get_user_info(userId).role in admins:
-            content = content.split(); bannedUserId = sub_client.get_from_code(content[1]).objectId; reason = ' '.join(content[2:]);
+            content = content.split(); bannedUserId = sub_client.get_from_code(content[1]).objectId
+            reason = ' '.join(content[2:]); bannedNickname = sub_client.get_user_info(bannedUserId).nickname
             sub_client.ban(userId=bannedUserId, reason=reason)
+            sub_client.send_message(message=f"готово! пользователь {bannedNickname} забанен!", chatId=chatId, replyTo=id)
+
         else:
-            sub_client.send_message(message="ты не можешь использовать эту команду, потому что ты не админ!", chatId, replyTo=id)
+            sub_client.send_message(message="ты не можешь использовать эту команду, потому что ты не админ!", chatId=chatId, replyTo=id)
+
+    if content.lower().startswith("разбан"):
+        if sub_client.get_user_info(userId).role in admins:
+            content = content.split(); unBannedUserId = sub_client.get_from_code(content[1]).objectId
+            reason = ' '.join(content[2:]); unBannedNickname = sub_client.get_user_info(unBannedUserId).nickname
+            sub_client.unban(userId=unBannedUserId, reason=reason)
+            sub_client.send_message(message=f"готово! пользователь {unBannedNickname} разбанен!", chatId=chatId, replyTo=id)
+
+        else:
+            sub_client.send_message(message="ты не можешь использовать эту команду, потому что ты не админ!", chatId=chatId, replyTo=id)
 
     if "http://aminoapps.com/" in content:
 
@@ -77,10 +90,7 @@ def on_message(data: aminofix.objects.Event):
                 sub_client.kick(userId, chatId, False)
 
 
-
-
     # if content.lower() == ".проверь ботов в соо":
-    #      usersCount = client.get_community_info(ndcId).usersCount; start = 0; end = 50
 
 
     if content.lower().startswith(".гс"):
