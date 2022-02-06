@@ -2,6 +2,7 @@ import threading
 import random
 import aminofix
 import time
+from gtts import gTTS
 from util import *
 
 # aminofix кал
@@ -30,7 +31,7 @@ def on_message(data: aminofix.objects.Event):
 
     userMessages.append(time); userMessages.append(userId)
 
-    print(nickname, content, data.message.type, userId, ndcId)
+    # print(nickname, content, data.message.type, userId, ndcId)
 
     if userMessages[0] == time and userMessages.count(userId) >= 3:
         sub_client.ban(userId, "рейд")
@@ -49,6 +50,13 @@ def on_message(data: aminofix.objects.Event):
         sub_client.send_message(message="реклама тг канала! ты будешь забанен. ты не понял? ЗАБАНЕН", chatId=chatId)
         sub_client.ban(userId, "Реклама тг канала")
         sub_client.kick(userId, chatId, False)
+
+    if content.lower().startswith(".бан"):
+        if sub_client.get_user_info(userId).role in admins:
+            content = content.split(); bannedUserId = sub_client.get_from_code(content[1]).objectId; reason = ' '.join(content[2:]);
+            sub_client.ban(userId=bannedUserId, reason=reason)
+        else:
+            sub_client.send_message(message="ты не можешь использовать эту команду, потому что ты не админ!", chatId, replyTo=id)
 
     if "http://aminoapps.com/" in content:
 
@@ -74,6 +82,12 @@ def on_message(data: aminofix.objects.Event):
     # if content.lower() == ".проверь ботов в соо":
     #      usersCount = client.get_community_info(ndcId).usersCount; start = 0; end = 50
 
+
+    if content.lower().startswith(".гс"):
+        content = content.split(); text = ' '.join(content[1:])
+        voice = gTTS(text=text, lang="ru"); voice.save("гс.mp3")
+        with open("гс.mp3", "rb") as vm:
+            sub_client.send_message(chatId=chatId, file=vm, fileType="audio")
 
 
     if content.lower().startswith(".любовь"):
